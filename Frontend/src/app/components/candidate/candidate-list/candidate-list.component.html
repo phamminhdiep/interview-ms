@@ -1,0 +1,94 @@
+<app-header [title]="'Candidate'"></app-header>
+<main>
+    <h3>Candidate list</h3>
+    <div class=filter-row>
+        <div class="search-input">
+            <mat-form-field appearance="outline" class="filter-item">
+                <mat-icon style="color: #9E9E9E" matPrefix>search</mat-icon>
+                <mat-label>Search by name</mat-label>
+                <input name="searchText" matInput type="text" [(ngModel)]="candidateRequestDto.name"
+                    (keyup.enter)="onFilter()">
+            </mat-form-field>
+        </div>
+        <div class="dropdown-status">
+            <mat-form-field appearance="outline" class="filter-item">
+                <mat-label>Status</mat-label>
+                <mat-select name="statusId" [(value)]="candidateRequestDto.status">
+                    <!-- <mat-option>
+                    <ngx-mat-select-search placeholderLabel="Search" [formControl]="branchSearch"
+                      noEntriesFoundLabel="No matching found"></ngx-mat-select-search>
+                  </mat-option> -->
+                    <mat-option *ngFor="let status of listStatus" [value]='status.id'>
+                        {{status.name}}
+                    </mat-option>
+                </mat-select>
+            </mat-form-field>
+        </div>
+        <button name="filterBtn" mat-flat-button color="primary" class="action-button" (click)="onFilter()">
+            Search
+        </button>
+
+        <button name="resetBtn" mat-flat-button color="warn" class="action-button" (click)="onReset()">
+            Reset
+        </button>
+    </div>
+    <div class="add-new-button">
+        <button mat-flat-button color="primary" routerLink="/candidates/new">Add New</button>
+    </div>
+    <table mat-table [dataSource]="dataSource" class="mat-elevation-z0">
+        <ng-container matColumnDef="name">
+            <th mat-header-cell *matHeaderCellDef> Fullname </th>
+            <td mat-cell *matCellDef="let element"> {{element.name}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="email">
+            <th mat-header-cell *matHeaderCellDef> Email </th>
+            <td mat-cell *matCellDef="let element"> {{element.email}} </td>
+        </ng-container>
+
+        <!-- Name Column -->
+        <ng-container matColumnDef="currentPosition">
+            <th mat-header-cell *matHeaderCellDef> Current Position </th>
+            <td mat-cell *matCellDef="let element"> {{element.currentPosition | formatTitle}} </td>
+        </ng-container>
+
+        <!-- Weight Column -->
+        <ng-container matColumnDef="phone">
+            <th mat-header-cell *matHeaderCellDef> Phone </th>
+            <td mat-cell *matCellDef="let element"> {{element.phoneNumber}} </td>
+        </ng-container>
+
+        <!-- Symbol Column -->
+        <ng-container matColumnDef="status">
+            <th mat-header-cell *matHeaderCellDef> Status </th>
+            <td mat-cell *matCellDef="let element"> {{element.status | formatTitle}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="ownerHR">
+            <th mat-header-cell *matHeaderCellDef> Owner HR </th>
+            <td mat-cell *matCellDef="let element"> {{element.ownerHrEmail}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="action">
+            <th mat-header-cell *matHeaderCellDef> Action </th>
+            <td mat-cell *matCellDef="let element">
+                <button mat-icon-button [routerLink]="['/candidates/edit', element.id]">
+                    <mat-icon>edit</mat-icon>
+                </button>
+                <button mat-icon-button (click)="onDelete(element.id)">
+                    <mat-icon>delete</mat-icon>
+                </button>
+            </td>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+    </table>
+    <div class="pagination-container">
+        <mat-paginator [length]="totalItems" [pageSize]="pageSize" [pageSizeOptions]="[5, 10, 25, 50]"
+            (page)="onMatPaginatorChange($event)">
+        </mat-paginator>
+    </div>
+
+
+</main>

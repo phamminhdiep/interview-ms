@@ -1,0 +1,76 @@
+<div class="add-candidate-container">
+    <h2>Add new candidate</h2>
+  
+    <mat-card>
+      <mat-card-content>
+        <form (ngSubmit)="saveCandidate(candidateForm)" #candidateForm="ngForm">
+          <div class="form-row">
+            <mat-form-field appearance="outline" class="full-width">
+              <mat-label>Full name</mat-label>
+              <input matInput name="candidateName" [(ngModel)]="candidateData.name" required #name="ngModel">
+              <mat-error *ngIf="name.invalid && (name.dirty || name.touched)">
+                Full name is required.
+              </mat-error>
+            </mat-form-field>
+          </div>
+  
+          <div class="form-row">
+            <mat-form-field appearance="outline" class="full-width">
+              <mat-label>Email</mat-label>
+              <input matInput type="email" name="candidateEmail" [(ngModel)]="candidateData.email" required email #email="ngModel">
+              <mat-error *ngIf="email.invalid && (email.dirty || email.touched)">
+                Invalid email address.
+              </mat-error>
+            </mat-form-field>
+          </div>
+  
+          <div class="form-row">
+            <mat-form-field appearance="outline" class="full-width">
+              <mat-label>Phone number</mat-label>
+              <input matInput name="candidatePhone" [(ngModel)]="candidateData.phoneNumber">
+            </mat-form-field>
+          </div>
+
+        <div class="form-row">
+            <mat-form-field appearance="outline" class="full-width">
+                <mat-label>Current Position</mat-label>
+                <mat-select name="candidateCurrentPosition" [(ngModel)]="candidateData.currentPosition" required #currentPosition="ngModel">
+                    <mat-option *ngFor="let position of positions" [value]="position.id">
+                        {{ position.name }}
+                    </mat-option>
+                </mat-select>
+                <mat-error *ngIf="currentPosition.invalid && (currentPosition.dirty || currentPosition.touched)">
+                    Current position is required.
+                </mat-error>
+            </mat-form-field>
+        </div>
+  
+          <div class="form-row">
+            <mat-form-field appearance="outline" class="full-width">
+              <mat-label>Owner HR email</mat-label>
+              <input matInput name="ownerHR" [(ngModel)]="candidateData.ownerHrEmail" readonly>
+              </mat-form-field>
+            </div>
+  
+          <div class="form-row">
+            <mat-form-field appearance="outline" class="full-width">
+              <mat-label>Status</mat-label>
+              <mat-select name="status" [(ngModel)]="candidateData.status" required #statusField="ngModel">
+                <mat-option *ngFor="let statusItem of statuses" [value]="statusItem.id">
+                  {{statusItem.name}}
+                </mat-option>
+              </mat-select>
+              <mat-error *ngIf="statusField.invalid && (statusField.dirty || statusField.touched)">
+                Status is required.
+              </mat-error>
+            </mat-form-field>
+          </div>
+  
+          <div class="action-buttons">
+            <button mat-stroked-button type="button" (click)="goBack()">Cancel</button>
+            <button mat-raised-button color="primary" type="submit" [disabled]="candidateForm.invalid || !candidateData.ownerHrEmail">Save Candidate</button>
+            </div>
+        </form>
+      </mat-card-content>
+    </mat-card>
+  </div>    

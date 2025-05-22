@@ -1,0 +1,47 @@
+.list-container {
+  padding: 20px;
+  position: relative;
+}
+
+.filter-card {
+  margin-bottom: 20px;
+}
+
+.filter-controls {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+  align-items: center;
+}
+
+.filter-controls mat-form-field {
+  flex-grow: 1;
+  min-width: 200px;
+}
+
+.add-button-container {
+  margin-top: 16px;
+  text-align: right;
+}
+
+.table-container {
+  position: relative;
+}
+
+.mat-mdc-paginator {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.loading-shade {
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0; /* Hoặc chỉ bao phủ table: bottom: 56px nếu paginator cố định */
+  right: 0;
+  background: rgba(255, 255, 255, 0.7);
+  z-index: 100; /* Đè lên table */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}

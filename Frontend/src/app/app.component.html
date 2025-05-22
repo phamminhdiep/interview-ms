@@ -1,0 +1,25 @@
+<mat-sidenav-container>
+  <mat-sidenav mode="side" opened class="nav-container">
+    <mat-nav-list class="nav-list">
+      <ng-container *ngFor="let item of navbarRows">
+        <a *ngIf="!item.action" mat-list-item [routerLink]="[item.route]" routerLinkActive="list-item-active">
+          <div class="list-item">
+            <mat-icon matListIcon> {{ item.icon }} </mat-icon>
+            <span>{{ item.name }}</span>
+          </div>
+        </a>
+        <a *ngIf="item.action === 'logout'" mat-list-item (click)="handleLogout()" style="cursor: pointer;">
+          <div class="list-item">
+            <mat-icon matListIcon> {{ item.icon }} </mat-icon>
+            <span>{{ item.name }}</span>
+          </div>
+        </a>
+      </ng-container>
+    </mat-nav-list>
+  </mat-sidenav>
+  <mat-sidenav-content style="height: 100vh;">
+    <div class="content">
+      <router-outlet></router-outlet>
+    </div>
+  </mat-sidenav-content>
+</mat-sidenav-container>

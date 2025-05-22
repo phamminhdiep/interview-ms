@@ -1,0 +1,105 @@
+<div class="edit-page-container">
+    <h2>Edit Interview</h2>
+
+    <div *ngIf="isFetchingInitialData" class="loading-indicator">
+        <mat-spinner diameter="50"></mat-spinner>
+        <p>Loading Interview data...</p>
+    </div>
+
+    <mat-card *ngIf="interviewData && !isFetchingInitialData">
+        <mat-card-content>
+            <form (ngSubmit)="updateInterview(interviewForm)" #interviewForm="ngForm">
+
+                <div class="form-row">
+                    <mat-form-field appearance="outline" class="full-width">
+                        <mat-label>Interview Title</mat-label>
+                        <input matInput name="interviewTitle" [(ngModel)]="interviewData.title" required #titleInput="ngModel">
+                        <mat-error *ngIf="titleInput.invalid && (titleInput.dirty || titleInput.touched)">
+                            Title is required.
+                        </mat-error>
+                    </mat-form-field>
+                </div>
+
+                <div class="form-row">
+                    <mat-form-field appearance="outline" class="full-width">
+                        <mat-label>Candidate (Name or ID)</mat-label>
+                        <input matInput name="interviewCandidate" [(ngModel)]="interviewData.candidate" required #candidateInput="ngModel">
+                        <mat-error *ngIf="candidateInput.invalid && (candidateInput.dirty || candidateInput.touched)">
+                            Candidate is required.
+                        </mat-error>
+                    </mat-form-field>
+                </div>
+
+                <div class="form-row">
+                    <mat-form-field appearance="outline" class="full-width">
+                        <mat-label>Interviewer (Name or ID)</mat-label>
+                        <input matInput name="interviewInterviewer" [(ngModel)]="interviewData.interviewer" required #interviewerInput="ngModel">
+                        <mat-error *ngIf="interviewerInput.invalid && (interviewerInput.dirty || interviewerInput.touched)">
+                            Interviewer is required.
+                        </mat-error>
+                    </mat-form-field>
+                </div>
+                
+                <div class="form-row">
+                    <mat-form-field appearance="outline" class="full-width">
+                        <mat-label>Related Job (Name or ID)</mat-label>
+                        <input matInput name="interviewJob" [(ngModel)]="interviewData.job" required #jobInput="ngModel">
+                        <mat-error *ngIf="jobInput.invalid && (jobInput.dirty || jobInput.touched)">
+                            Job is required.
+                        </mat-error>
+                    </mat-form-field>
+                </div>
+
+                <div class="form-row">
+                    <mat-form-field appearance="outline" class="full-width">
+                        <mat-label>Schedule (Date & Time)</mat-label>
+                        <input matInput 
+                                     [matDatepicker]="picker" 
+                                     name="interviewSchedule" 
+                                     [(ngModel)]="interviewData.schedule" 
+                                     placeholder="Select date"
+                                     required #scheduleInput="ngModel">
+                        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                        <mat-datepicker #picker></mat-datepicker>
+                        <mat-error *ngIf="scheduleInput.invalid && (scheduleInput.dirty || scheduleInput.touched)">
+                            Schedule is required.
+                        </mat-error>
+                    </mat-form-field>
+                </div>
+
+                <div class="form-row">
+                    <mat-form-field appearance="outline" class="full-width">
+                        <mat-label>Result</mat-label>
+                        <mat-select name="interviewResult" [(ngModel)]="interviewData.result">
+                            <mat-option *ngFor="let resultItem of interviewResults" [value]="resultItem.id">
+                                {{resultItem.name}}
+                            </mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                </div>
+
+                <div class="form-row">
+                    <mat-form-field appearance="outline" class="full-width">
+                        <mat-label>Status</mat-label>
+                        <mat-select name="interviewStatus" [(ngModel)]="interviewData.status" required #statusInput="ngModel">
+                            <mat-option *ngFor="let statusItem of interviewStatuses" [value]="statusItem.id">
+                                {{statusItem.name}}
+                            </mat-option>
+                        </mat-select>
+                        <mat-error *ngIf="statusInput.invalid && (statusInput.dirty || statusInput.touched)">
+                            Status is required.
+                        </mat-error>
+                    </mat-form-field>
+                </div>
+
+                <div class="action-buttons">
+                    <button mat-stroked-button type="button" (click)="goBack()" [disabled]="isLoading">Cancel</button>
+                    <button mat-raised-button color="primary" type="submit" [disabled]="interviewForm.invalid || isLoading">
+                        <span *ngIf="!isLoading">Save changes</span>
+                        <span *ngIf="isLoading">Updating...</span>
+                    </button>
+                </div>
+            </form>
+        </mat-card-content>
+    </mat-card>
+</div>
